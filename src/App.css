@@ -5,6 +5,17 @@
   text-align: center;
 }
 
+pre {
+  background: linear-gradient(to right, #00bfae, #8000ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 0 5px rgba(0, 191, 174, 0.5);
+  line-height: normal;
+  font-weight: bold;
+  font-size: calc(1vw + 7px);
+  margin-bottom: 20px;
+}
+
 .logo {
   height: 6em;
   padding: 1.5em;
