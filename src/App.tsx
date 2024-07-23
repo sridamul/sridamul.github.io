@@ -1,24 +1,15 @@
+// src/App.tsx
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Home from './components/Terminal'
 import './App.css';
 
-const getYear = () => {
-  return new Date().getFullYear();
-};
-
 function App() {
-  const bannerCondensed = 
-    " ________  _______    __     ________       __       ___      ___  ____  ____  ___       \n" +
-    " /\"       )/\"      \\  |\" \\   |\"      \"\\     /\"\"\\     |\"  \\    /\"  |(\"  _||_ \" ||\"  |      \n" +
-    "(:   \\___/|:        | ||  |  (.  ___  :)   /    \\     \\   \\  //   ||   (  ) : |||  |      \n" +
-    " \\___  \\  |_____/   ) |:  |  |: \\   ) ||  /' /\\  \\    /\\\\  \\/.    |(:  |  | . )|:  |      \n" +
-    "  __/  \\\\  //      /  |.  |  (| (___\\ || //  __'  \\  |: \\.        | \\\\ \\__/ //  \\  |___   \n" +
-    " /\" \\   :)|:  __   \\  /\\  |\\ |:       :)/   /  \\\\  \\ |.  \\    /:  | /\\\\ __ //\\ ( \\_|:  \\  \n" +
-    "(_______/ |__|  \\___)(__\\_|_)(________/(___/    \\___)|___|\\__/|___|(__________) \\_______) \n" +
-    "  \u00A9 " + getYear();
-
   return (
-    <>
-      <pre>{bannerCondensed}</pre>
-    </>
+    <Router>
+      <Routes>
+        <Route path="*" element={<Home />} />
+      </Routes>
+    </Router>
   );
 }
 
