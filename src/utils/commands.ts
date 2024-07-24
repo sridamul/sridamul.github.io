@@ -4,7 +4,7 @@ import { addCommandToHistory, getCommandHistory, navigateHistory } from './histo
 type Command = 'compgen' | 'help' | 'clear' | 'ls' | 'cd' | 'cat' | 'man' | 'history' | 'date' | 'github';
 
 const commands: Record<Command, string | null> = {
-  compgen: 'Available commands: cat, cd, clear, compgen, date, help, ls, man, history',
+  compgen: 'Available commands: cat, cd, clear, compgen, date, github, help, ls, man, history',
   help: 'Type a command and press Enter. Use "compgen" to list all commands, and "man" to show the manual pages for each command.',
   clear: null,
   ls: null,
