@@ -4,12 +4,13 @@ import OutputArea from './OutputArea';
 import { getResponseForCommand, handleArrowKey } from '../utils/commands';
 import { getAutocompleteSuggestions, getCdSuggestions, getCatSuggestions } from '../utils/autocomplete';
 import useAutoFocus from '../hooks/useAutoFocus';
-import { fileSystem } from '../fileSystem/fileSystem';
+import { FileSystemItem, fileSystem as rootFileSystem } from '../fileSystem/fileSystem';
 
 const InputArea: React.FC = () => {
   const [inputValue, setInputValue] = useState('');
   const [output, setOutput] = useState<{ promptPart: string; commandPart: string; response: string }[]>([]);
   const [prompt, setPrompt] = useState<string>('Loading prompt...');
+  const [currentDirectory, setCurrentDirectory] = useState<FileSystemItem[]>(rootFileSystem);
   const [currentPath, setCurrentPath] = useState<string>('/');
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -55,6 +56,19 @@ const InputArea: React.FC = () => {
           ...prevOutput,
           { promptPart, commandPart, response: '' }
         ]);      
+        // Update current directory
+        const newDir = response?.startsWith('/') ? response.slice(1).split('/') : [];
+        let newCurrentDirectory: FileSystemItem[] = rootFileSystem;
+        for (const dir of newDir) {
+          const foundDir = newCurrentDirectory.find(item => item.name === dir && item.type === 'directory');
+          if (foundDir && foundDir.children) {
+            newCurrentDirectory = foundDir.children;
+          } else {
+            newCurrentDirectory = [];
+            break;
+          }
+        }
+        setCurrentDirectory(newCurrentDirectory);
       } else {
         setOutput((prevOutput) => [
           ...prevOutput,
@@ -99,11 +113,11 @@ const InputArea: React.FC = () => {
       const inputParts = inputValue.split(' ');
 
       if (inputParts[0] === 'cd' && inputParts.length === 2) {
-        suggestions = getCdSuggestions(inputParts[1], fileSystem);
+        suggestions = getCdSuggestions(inputParts[1], currentDirectory);
       } else if (inputParts[0] === 'cat' && inputParts.length === 2) {
-        suggestions = getCatSuggestions(inputParts[1], fileSystem);
+        suggestions = getCatSuggestions(inputParts[1], currentDirectory);
       } else {
-        suggestions = getAutocompleteSuggestions(inputValue, fileSystem);
+        suggestions = getAutocompleteSuggestions(inputValue, currentDirectory);
       }
 
       if (suggestions.length === 1) {
