@@ -1,10 +1,10 @@
 import { fileSystem, FileSystemItem } from '../fileSystem/fileSystem';
 import { addCommandToHistory, getCommandHistory, navigateHistory } from './historyManager';
 
-type Command = 'compgen' | 'help' | 'clear' | 'ls' | 'cd' | 'cat' | 'man' | 'history';
+type Command = 'compgen' | 'help' | 'clear' | 'ls' | 'cd' | 'cat' | 'man' | 'history' | 'date';
 
 const commands: Record<Command, string | null> = {
-  compgen: 'Available commands: cat, cd, clear, compgen, help, ls, man',
+  compgen: 'Available commands: cat, cd, clear, compgen, date, help, ls, man, history',
   help: 'Type a command and press Enter. Use "compgen" to list all commands, and "man" to show the manual pages for each command.',
   clear: null,
   ls: null,
@@ -12,6 +12,7 @@ const commands: Record<Command, string | null> = {
   cat: null,
   man: null,
   history: null,
+  date: null,
 };
 
 const manPages: Record<string, string> = {
@@ -22,7 +23,8 @@ const manPages: Record<string, string> = {
   cd: 'Changes the current directory. Usage: cd &lt;directory&gt;',
   cat: 'Displays the contents of a file. Usage: cat &lt;file&gt;',
   man: 'Displays the manual page for a command. Usage: man &lt;command&gt;',
-  history: 'Displays the list of history of commands used.'
+  history: 'Displays the list of history of commands used.',
+  date: 'Displays the current date and time.'
 };
 
 const isCommand = (command: string): command is Command => {
@@ -93,6 +95,20 @@ export const getResponseForCommand = (command: string): string | null => {
       }
       case 'history':
         return getCommandHistory();
+        case 'date': {
+          const now = new Date();
+          const options: Intl.DateTimeFormatOptions = {
+            weekday: 'short',
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+            timeZoneName: 'short'
+          };
+          return now.toLocaleDateString('en-US', options) + ' ' + now.toLocaleTimeString('en-US', { hour12: false });
+        }
       case 'compgen':
       case 'help':
       case 'clear': {
