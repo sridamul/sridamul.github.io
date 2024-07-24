@@ -8,7 +8,7 @@ const InputArea: React.FC = () => {
   const [inputValue, setInputValue] = useState('');
   const [output, setOutput] = useState<{ promptPart: string; commandPart: string; response: string }[]>([]);
   const [prompt, setPrompt] = useState<string>('Loading prompt...');
-  const [currentPath, setCurrentPath] = useState<string>('/'); // Track the current directory path
+  const [currentPath, setCurrentPath] = useState<string>('/');
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -42,13 +42,11 @@ const InputArea: React.FC = () => {
       return;
     }
 
-    // Update the current path if needed
     const updatedPath = response?.startsWith('/') ? response : currentPath;
     if (updatedPath !== currentPath) {
       setCurrentPath(updatedPath);
     }
 
-    // Construct the command part and prompt part
     const commandPart = inputValue.trim();
     const promptPart = `${prompt}${currentPath.trim()}#`;
 
