@@ -1,16 +1,18 @@
 import { fileSystem, FileSystemItem } from '../fileSystem/fileSystem';
+import { addCommandToHistory, getCommandHistory, navigateHistory } from './historyManager';
 
-type Command = 'compgen' | 'help' | 'greet' | 'clear' | 'ls' | 'cd' | 'cat' | 'man';
+type Command = 'compgen' | 'help' | 'greet' | 'clear' | 'ls' | 'cd' | 'cat' | 'man' | 'history';
 
 const commands: Record<Command, string | null> = {
   compgen: 'Available commands: cat, cd, clear, compgen, greet, help, ls, man',
-  help: 'Type a command and press Enter. Use "compgen" to list all commands.',
+  help: 'Type a command and press Enter. Use "compgen" to list all commands, and "man" to show the manual pages for each command.',
   greet: 'Hello! How can I assist you today?',
   clear: null,
   ls: null,
   cd: null,
   cat: null,
   man: null,
+  history: null,
 };
 
 const manPages: Record<string, string> = {
@@ -22,6 +24,7 @@ const manPages: Record<string, string> = {
   cd: 'Changes the current directory. Usage: cd &lt;directory&gt;',
   cat: 'Displays the contents of a file. Usage: cat &lt;file&gt;',
   man: 'Displays the manual page for a command. Usage: man &lt;command&gt;',
+  history: 'Displays the list of history of commands used.'
 };
 
 const isCommand = (command: string): command is Command => {
@@ -38,6 +41,8 @@ const findItem = (name: string, directory: FileSystemItem[]): FileSystemItem | u
 
 export const getResponseForCommand = (command: string): string | null => {
   const [cmd, ...args] = command.split(' ');
+
+  addCommandToHistory(command);
 
   if (isCommand(cmd)) {
     switch (cmd) {
@@ -88,6 +93,8 @@ export const getResponseForCommand = (command: string): string | null => {
         if (args.length !== 1) return "Usage: man &lt;command&gt;";
         return manPages[args[0]] || `No manual entry for ${args[0]}`;
       }
+      case 'history':
+        return getCommandHistory();
       case 'compgen':
       case 'help':
       case 'greet':
@@ -101,4 +108,9 @@ export const getResponseForCommand = (command: string): string | null => {
   }
 
   return 'Command not found. Type "compgen" for a list of commands.';
+};
+
+
+export const handleArrowKey = (key: 'up' | 'down'): string => {
+  return navigateHistory(key);
 };

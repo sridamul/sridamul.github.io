@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { getTerminalPrompt } from '../utils/getTerminalPrompt';
 import OutputArea from './OutputArea';
-import { getResponseForCommand } from '../utils/commands';
+import { getResponseForCommand, handleArrowKey } from '../utils/commands';
 import useAutoFocus from '../hooks/useAutoFocus';
 
 const InputArea: React.FC = () => {
@@ -61,6 +61,18 @@ const InputArea: React.FC = () => {
     }
   };
 
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      const previousCommand = handleArrowKey('up');
+      setInputValue(previousCommand);
+    } else if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      const nextCommand = handleArrowKey('down');
+      setInputValue(nextCommand);
+    }
+  };
+
   return (
     <div className="input-area">
       <OutputArea output={output} />
@@ -71,6 +83,7 @@ const InputArea: React.FC = () => {
           type="text"
           value={inputValue}
           onChange={handleInputChange}
+          onKeyDown={handleKeyDown}
           className="terminal-input"
           autoFocus
         />
