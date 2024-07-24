@@ -8,7 +8,7 @@ const getYear = () => {
 
 
 const welcomeMessage = `Hi! I am Sridhar Sivakumar. Welcome to my site.
-Type 'compgen' or 'help' to view all available commands.`;
+Type 'compgen' to view all available commands or 'help' to know how to use them.`;
 
 const bannerCondensed = 
   " ________  _______    __     ________       __       ___      ___  ____  ____  ___       \n" +
