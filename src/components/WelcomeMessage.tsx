@@ -1,5 +1,8 @@
 import React, { useEffect } from "react";
 
+// Credits: Craig feldmann
+// GitHub Link: https://github.com/craig-feldman
+
 type WelcomeMessageProps = {
   message: string;
   inputRef: React.RefObject<HTMLInputElement>;
