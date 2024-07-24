@@ -4,7 +4,7 @@ export const getAutocompleteSuggestions = (
   input: string,
   currentDirectory: FileSystemItem[]
 ): string[] => {
-  const commands = ['compgen', 'help', 'clear', 'ls', 'cd', 'cat', 'man', 'history', 'date'];
+  const commands = ['compgen', 'help', 'clear', 'ls', 'cd', 'cat', 'man', 'history', 'date', 'github'];
   const suggestions = commands.filter((command) => command.startsWith(input));
 
   const currentDirectoryItems = currentDirectory
