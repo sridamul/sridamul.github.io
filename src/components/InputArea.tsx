@@ -2,7 +2,9 @@ import React, { useState, useEffect, useRef } from 'react';
 import { getTerminalPrompt } from '../utils/getTerminalPrompt';
 import OutputArea from './OutputArea';
 import { getResponseForCommand, handleArrowKey } from '../utils/commands';
+import { getAutocompleteSuggestions, getCdSuggestions, getCatSuggestions } from '../utils/autocomplete';
 import useAutoFocus from '../hooks/useAutoFocus';
+import { fileSystem } from '../fileSystem/fileSystem';
 
 const InputArea: React.FC = () => {
   const [inputValue, setInputValue] = useState('');
@@ -45,7 +47,6 @@ const InputArea: React.FC = () => {
       return;
     }
 
-    // Edge case: Not to print the value to terminal if the directory changed successfully
     if (command.startsWith('cd')) {
       const updatedPath = response?.startsWith('/') ? response : currentPath;
       if (updatedPath !== currentPath) {
@@ -92,6 +93,30 @@ const InputArea: React.FC = () => {
       e.preventDefault();
       const nextCommand = handleArrowKey('down');
       setInputValue(nextCommand);
+    } else if (e.key === 'Tab') {
+      e.preventDefault();
+      let suggestions: string[] = [];
+      const inputParts = inputValue.split(' ');
+
+      if (inputParts[0] === 'cd' && inputParts.length === 2) {
+        suggestions = getCdSuggestions(inputParts[1], fileSystem);
+      } else if (inputParts[0] === 'cat' && inputParts.length === 2) {
+        suggestions = getCatSuggestions(inputParts[1], fileSystem);
+      } else {
+        suggestions = getAutocompleteSuggestions(inputValue, fileSystem);
+      }
+
+      if (suggestions.length === 1) {
+        setInputValue(inputParts.length === 2 ? `${inputParts[0]} ${suggestions[0]}` : suggestions[0]);
+      } else if (suggestions.length > 1) {
+        const promptPart = `${prompt}${currentPath.trim()}#`;
+        const commandPart = inputValue.trim();
+        const response = suggestions.join(' ');
+        setOutput((prevOutput) => [
+          ...prevOutput,
+          { promptPart, commandPart, response }
+        ]);
+      }
     }
   };
 
