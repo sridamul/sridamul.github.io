@@ -78,3 +78,47 @@
 .terminal-response {
   color: white;
 }
+
+@media (max-width: 768px) {
+  #root {
+    padding: 1rem;
+  }
+
+  .banner {
+    font-size: 12px;
+  }
+
+  .terminal-welcome-message {
+    font-size: 14px;
+  }
+
+  .terminal-prompt {
+    font-size: 14px;
+  }
+
+  .input-form input {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .banner {
+    font-size: 6px;
+  }
+
+  .terminal-welcome-message {
+    font-size: 10px;
+  }
+
+  .terminal-prompt {
+    font-size: 10px;
+  }
+
+  .input-form input {
+    font-size: 10px;
+  }
+
+  .output-area {
+    font-size: 10px;
+  }
+}
