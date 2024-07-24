@@ -1,19 +1,88 @@
-type Command = 'compgen' | 'help' | 'greet' | 'clear';
+import { fileSystem, FileSystemItem } from '../fileSystem';
+
+type Command = 'compgen' | 'help' | 'greet' | 'clear' | 'ls' | 'cd' | 'cat';
 
 const commands: Record<Command, string | null> = {
-  compgen: 'Available commands: compgen, help, greet, clear',
+  compgen: 'Available commands: compgen, help, greet, clear, ls, cd, cat',
   help: 'Type a command and press Enter. Use "compgen" to list all commands.',
   greet: 'Hello! How can I assist you today?',
   clear: null,
+  ls: null,
+  cd: null,
+  cat: null,
 };
 
 const isCommand = (command: string): command is Command => {
   return command in commands;
 };
 
+let currentDirectory: FileSystemItem[] = fileSystem;
+const directoryStack: FileSystemItem[][] = [];
+let currentPath: string = '/';
+
+const findItem = (name: string, directory: FileSystemItem[]): FileSystemItem | undefined => {
+  return directory.find(item => item.name === name);
+};
+
 export const getResponseForCommand = (command: string): string | null => {
-  if (isCommand(command)) {
-    return commands[command];
+  const [cmd, ...args] = command.split(' ');
+
+  if (isCommand(cmd)) {
+    switch (cmd) {
+      case 'ls': {
+        return currentDirectory
+          .map(item => {
+            if (item.type === 'directory') {
+              return `<span style="color: #729fcf;">${item.name}</span>`;
+            }
+            return item.name;
+          })
+          .join(' ');
+      }
+      case 'cd': {
+        if (args.length !== 1) return "Usage: cd &lt;directory&gt;";
+
+        if (args[0] === '..') {
+          if (directoryStack.length === 0) {
+            return 'Already at root';
+          }
+          currentDirectory = directoryStack.pop()!;
+          currentPath = currentPath.substring(0, currentPath.lastIndexOf('/')) || '/';
+          return currentPath;
+        }
+
+        const dir = findItem(args[0], currentDirectory);
+        if (dir && dir.type === 'directory') {
+          directoryStack.push(currentDirectory);
+          currentDirectory = dir.children || [];
+          currentPath = `${currentPath}${args[0]}`;
+          return currentPath;
+        }
+        return `Directory not found: ${args[0]}`;
+      }
+      case 'cat': {
+        if (args.length !== 1) return "Usage: cat &lt;file&gt;";
+        const file = findItem(args[0], currentDirectory);
+        if (file && file.type === 'file') {
+          if (file.extension === 'txt') {
+            return file.content || '';
+          } else if (file.extension === 'pdf') {
+            return `Download the PDF file <a href="/path/to/${file.name}.pdf" download>${file.name}.pdf</a>`;
+          }
+        }
+        return `File not found: ${args[0]}`;
+      }
+      case 'compgen':
+      case 'help':
+      case 'greet':
+      case 'clear': {
+        return commands[cmd];
+      }
+      default: {
+        return 'Command not found. Type "compgen" for a list of commands.';
+      }
+    }
   }
+
   return 'Command not found. Type "compgen" for a list of commands.';
 };

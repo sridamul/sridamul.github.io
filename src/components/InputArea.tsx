@@ -6,8 +6,9 @@ import useAutoFocus from '../hooks/useAutoFocus';
 
 const InputArea: React.FC = () => {
   const [inputValue, setInputValue] = useState('');
-  const [output, setOutput] = useState<{ command: string; response: string }[]>([]);
+  const [output, setOutput] = useState<{ promptPart: string; commandPart: string; response: string }[]>([]);
   const [prompt, setPrompt] = useState<string>('Loading prompt...');
+  const [currentPath, setCurrentPath] = useState<string>('/'); // Track the current directory path
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -41,9 +42,19 @@ const InputArea: React.FC = () => {
       return;
     }
 
+    // Update the current path if needed
+    const updatedPath = response?.startsWith('/') ? response : currentPath;
+    if (updatedPath !== currentPath) {
+      setCurrentPath(updatedPath);
+    }
+
+    // Construct the command part and prompt part
+    const commandPart = inputValue.trim();
+    const promptPart = `${prompt}${currentPath.trim()}#`;
+
     setOutput((prevOutput) => [
       ...prevOutput,
-      { command: `${prompt}${inputValue}`, response: response! }
+      { promptPart, commandPart, response: response! }
     ]);
     setInputValue('');
 
@@ -56,7 +67,7 @@ const InputArea: React.FC = () => {
     <div className="input-area">
       <OutputArea output={output} />
       <form onSubmit={handleSubmit} className="input-form">
-        <span className="terminal-prompt">{prompt}</span>
+        <span className="terminal-prompt">{prompt} {currentPath.trim()}#</span>
         <input
           ref={inputRef}
           type="text"
