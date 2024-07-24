@@ -1,12 +1,11 @@
 import { fileSystem, FileSystemItem } from '../fileSystem/fileSystem';
 import { addCommandToHistory, getCommandHistory, navigateHistory } from './historyManager';
 
-type Command = 'compgen' | 'help' | 'greet' | 'clear' | 'ls' | 'cd' | 'cat' | 'man' | 'history';
+type Command = 'compgen' | 'help' | 'clear' | 'ls' | 'cd' | 'cat' | 'man' | 'history';
 
 const commands: Record<Command, string | null> = {
-  compgen: 'Available commands: cat, cd, clear, compgen, greet, help, ls, man',
+  compgen: 'Available commands: cat, cd, clear, compgen, help, ls, man',
   help: 'Type a command and press Enter. Use "compgen" to list all commands, and "man" to show the manual pages for each command.',
-  greet: 'Hello! How can I assist you today?',
   clear: null,
   ls: null,
   cd: null,
@@ -18,7 +17,6 @@ const commands: Record<Command, string | null> = {
 const manPages: Record<string, string> = {
   compgen: 'Lists all available commands.',
   help: 'Displays a help message.',
-  greet: 'Displays a greeting message.',
   clear: 'Clears the terminal screen.',
   ls: 'Lists the contents of the current directory.',
   cd: 'Changes the current directory. Usage: cd &lt;directory&gt;',
@@ -97,7 +95,6 @@ export const getResponseForCommand = (command: string): string | null => {
         return getCommandHistory();
       case 'compgen':
       case 'help':
-      case 'greet':
       case 'clear': {
         return commands[cmd];
       }
