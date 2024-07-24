@@ -12,6 +12,7 @@ const InputArea: React.FC = () => {
   const [prompt, setPrompt] = useState<string>('Loading prompt...');
   const [currentDirectory, setCurrentDirectory] = useState<FileSystemItem[]>(rootFileSystem);
   const [currentPath, setCurrentPath] = useState<string>('/');
+  const directoryStack = useRef<FileSystemItem[][]>([]);
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -49,30 +50,31 @@ const InputArea: React.FC = () => {
     }
 
     if (command.startsWith('cd')) {
-      const updatedPath = response?.startsWith('/') ? response : currentPath;
-      if (updatedPath !== currentPath) {
+      const updatedPath = response && response.startsWith('/') ? response : currentPath;
+      if (response && updatedPath !== currentPath) {
         setCurrentPath(updatedPath);
         setOutput((prevOutput) => [
           ...prevOutput,
           { promptPart, commandPart, response: '' }
-        ]);      
+        ]);
         // Update current directory
-        const newDir = response?.startsWith('/') ? response.slice(1).split('/') : [];
-        let newCurrentDirectory: FileSystemItem[] = rootFileSystem;
-        for (const dir of newDir) {
-          const foundDir = newCurrentDirectory.find(item => item.name === dir && item.type === 'directory');
-          if (foundDir && foundDir.children) {
-            newCurrentDirectory = foundDir.children;
-          } else {
-            newCurrentDirectory = [];
-            break;
+        if (command === 'cd ..') {
+          const newDir = directoryStack.current.pop() || rootFileSystem;
+          setCurrentDirectory(newDir);
+          if (directoryStack.current.length === 0) {
+            setCurrentPath('/');
+          }
+        } else {
+          const newDir = findItem(command.split(' ')[1], currentDirectory);
+          if (newDir && newDir.type === 'directory') {
+            directoryStack.current.push(currentDirectory);
+            setCurrentDirectory(newDir.children || []);
           }
         }
-        setCurrentDirectory(newCurrentDirectory);
       } else {
         setOutput((prevOutput) => [
           ...prevOutput,
-          { promptPart, commandPart, response: response! }
+          { promptPart, commandPart, response: response || 'Error: Invalid path' }
         ]);
       }
       setInputValue('');
@@ -82,14 +84,14 @@ const InputArea: React.FC = () => {
       return;
     }
 
-    const updatedPath = response?.startsWith('/') ? response : currentPath;
-    if (updatedPath !== currentPath) {
+    const updatedPath = response && response.startsWith('/') ? response : currentPath;
+    if (response && updatedPath !== currentPath) {
       setCurrentPath(updatedPath);
     }
 
     setOutput((prevOutput) => [
       ...prevOutput,
-      { promptPart, commandPart, response: response! }
+      { promptPart, commandPart, response: response || 'Error: Command not found' }
     ]);
     setInputValue('');
 
@@ -151,6 +153,10 @@ const InputArea: React.FC = () => {
       </form>
     </div>
   );
+};
+
+const findItem = (name: string, directory: FileSystemItem[]): FileSystemItem | undefined => {
+  return directory.find(item => item.name === name);
 };
 
 export default InputArea;
