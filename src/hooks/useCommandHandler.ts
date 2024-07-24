@@ -31,13 +31,24 @@ const useCommandHandler = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (inputValue.trim() === '') return;
 
     const command = inputValue.trim().toLowerCase();
     const response = getResponseForCommand(command);
 
     const commandPart = inputValue.trim();
     const promptPart = `${prompt}${currentPath.trim()}#`;
+
+    if (commandPart === '') {
+      setOutput((prevOutput) => [
+        ...prevOutput,
+        { promptPart, commandPart, response: '' }
+      ]);
+      setInputValue('');
+      if (inputRef.current) {
+        inputRef.current.focus();
+      }
+      return;
+    }
 
     if (command === 'clear') {
       setOutput([]);
