@@ -33,8 +33,33 @@ const InputArea: React.FC = () => {
     const command = inputValue.trim().toLowerCase();
     const response = getResponseForCommand(command);
 
+    const commandPart = inputValue.trim();
+    const promptPart = `${prompt}${currentPath.trim()}#`;
+
     if (command === 'clear') {
       setOutput([]);
+      setInputValue('');
+      if (inputRef.current) {
+        inputRef.current.focus();
+      }
+      return;
+    }
+
+    // Edge case: Not to print the value to terminal if the directory changed successfully
+    if (command.startsWith('cd')) {
+      const updatedPath = response?.startsWith('/') ? response : currentPath;
+      if (updatedPath !== currentPath) {
+        setCurrentPath(updatedPath);
+        setOutput((prevOutput) => [
+          ...prevOutput,
+          { promptPart, commandPart, response: '' }
+        ]);      
+      } else {
+        setOutput((prevOutput) => [
+          ...prevOutput,
+          { promptPart, commandPart, response: response! }
+        ]);
+      }
       setInputValue('');
       if (inputRef.current) {
         inputRef.current.focus();
@@ -46,9 +71,6 @@ const InputArea: React.FC = () => {
     if (updatedPath !== currentPath) {
       setCurrentPath(updatedPath);
     }
-
-    const commandPart = inputValue.trim();
-    const promptPart = `${prompt}${currentPath.trim()}#`;
 
     setOutput((prevOutput) => [
       ...prevOutput,
