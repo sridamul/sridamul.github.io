@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { getTerminalPrompt } from '../utils/getTerminalPrompt';
 import OutputArea from './OutputArea';
 import { getResponseForCommand } from '../utils/commands';
+import useAutoFocus from '../hooks/useAutoFocus';
 
 const InputArea: React.FC = () => {
   const [inputValue, setInputValue] = useState('');
@@ -17,6 +18,8 @@ const InputArea: React.FC = () => {
 
     fetchPrompt();
   }, []);
+
+  useAutoFocus(inputRef);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
