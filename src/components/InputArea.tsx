@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { getTerminalPrompt } from '../utils/getTerminalPrompt';
 import OutputArea from './OutputArea';
+import { getResponseForCommand } from '../utils/commands';
 
 const InputArea: React.FC = () => {
   const [inputValue, setInputValue] = useState('');
@@ -26,27 +27,15 @@ const InputArea: React.FC = () => {
     if (inputValue.trim() === '') return;
 
     const command = inputValue.trim().toLowerCase();
-    let response: string | null = null;
+    const response = getResponseForCommand(command);
 
-    switch (command) {
-      case 'compgen':
-        response = 'Available commands: compgen, help, greet, clear';
-        break;
-      case 'help':
-        response = 'Type a command and press Enter. Use "compgen" to list all commands.';
-        break;
-      case 'greet':
-        response = 'Hello! How can I assist you today?';
-        break;
-      case 'clear':
-        setOutput([]);
-        setInputValue('');
-        if (inputRef.current) {
-          inputRef.current.focus();
-        }
-        return;
-      default:
-        response = 'Command not found. Type "compgen" for a list of commands.';
+    if (command === 'clear') {
+      setOutput([]);
+      setInputValue('');
+      if (inputRef.current) {
+        inputRef.current.focus();
+      }
+      return;
     }
 
     setOutput((prevOutput) => [
