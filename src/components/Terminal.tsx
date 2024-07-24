@@ -25,7 +25,7 @@ const Home: React.FC = () => {
   const inputRef = useRef<HTMLInputElement>(null);
 
   return (
-    <div className="home-container">
+    <div className="terminal-container">
       <pre className="banner">{bannerCondensed}</pre>
       <WelcomeMessage message={welcomeMessage} inputRef={inputRef} />
       <div className="terminal-input">

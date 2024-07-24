@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { getTerminalPrompt } from '../utils/getTerminalPrompt'; // Import the helper function
-import OutputArea from './OutputArea'; // Import the new component
+import { getTerminalPrompt } from '../utils/getTerminalPrompt';
+import OutputArea from './OutputArea';
 
 const InputArea: React.FC = () => {
   const [inputValue, setInputValue] = useState('');
@@ -44,12 +44,11 @@ const InputArea: React.FC = () => {
         if (inputRef.current) {
           inputRef.current.focus();
         }
-        return; // Return early to avoid adding the clear command to output
+        return;
       default:
         response = 'Command not found. Type "compgen" for a list of commands.';
     }
 
-    // Update output with command and response
     setOutput((prevOutput) => [
       ...prevOutput,
       { command: `${prompt}${inputValue}`, response: response! }
@@ -71,7 +70,7 @@ const InputArea: React.FC = () => {
           type="text"
           value={inputValue}
           onChange={handleInputChange}
-          className="terminal-input" // Ensure this class is styled appropriately in your CSS
+          className="terminal-input"
           autoFocus
         />
       </form>

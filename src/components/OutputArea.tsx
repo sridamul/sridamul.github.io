@@ -8,7 +8,6 @@ const OutputArea: React.FC<OutputProps> = ({ output }) => {
   return (
     <div className="output-area">
       {output.map((entry, index) => {
-        // Split the command from the prompt
         const [promptPart, commandPart] = entry.command.split(/(\s+[\w-]+\s*)$/).filter(Boolean);
         const isValidCommand = !entry.response.includes('Command not found');
 
