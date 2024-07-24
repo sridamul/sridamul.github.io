@@ -17,7 +17,7 @@ const Home: React.FC = () => {
 
   return (
     <div>
-      <pre>{bannerCondensed}</pre>
+      <pre className="banner">{bannerCondensed}</pre>
     </div>
   );
 };
