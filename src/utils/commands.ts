@@ -107,7 +107,6 @@ export const getResponseForCommand = (command: string): string | null => {
   return 'Command not found. Type "compgen" for a list of commands.';
 };
 
-
-export const handleArrowKey = (key: 'up' | 'down'): string => {
-  return navigateHistory(key);
+export const handleArrowKey = (key: 'up' | 'down', currentInput: string): string => {
+  return navigateHistory(key, currentInput);
 };

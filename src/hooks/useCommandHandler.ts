@@ -113,11 +113,11 @@ const useCommandHandler = () => {
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'ArrowUp') {
       e.preventDefault();
-      const previousCommand = handleArrowKey('up');
+      const previousCommand = handleArrowKey('up', inputValue);
       setInputValue(previousCommand);
     } else if (e.key === 'ArrowDown') {
       e.preventDefault();
-      const nextCommand = handleArrowKey('down');
+      const nextCommand = handleArrowKey('down', inputValue);
       setInputValue(nextCommand);
     } else if (e.key === 'Tab') {
       e.preventDefault();
