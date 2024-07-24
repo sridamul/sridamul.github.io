@@ -1,7 +1,7 @@
 import { fileSystem, FileSystemItem } from '../fileSystem/fileSystem';
 import { addCommandToHistory, getCommandHistory, navigateHistory } from './historyManager';
 
-type Command = 'compgen' | 'help' | 'clear' | 'ls' | 'cd' | 'cat' | 'man' | 'history' | 'date';
+type Command = 'compgen' | 'help' | 'clear' | 'ls' | 'cd' | 'cat' | 'man' | 'history' | 'date' | 'github';
 
 const commands: Record<Command, string | null> = {
   compgen: 'Available commands: cat, cd, clear, compgen, date, help, ls, man, history',
@@ -13,6 +13,7 @@ const commands: Record<Command, string | null> = {
   man: null,
   history: null,
   date: null,
+  github: null,
 };
 
 const manPages: Record<string, string> = {
@@ -24,7 +25,9 @@ const manPages: Record<string, string> = {
   cat: 'Displays the contents of a file. Usage: cat &lt;file&gt;',
   man: 'Displays the manual page for a command. Usage: man &lt;command&gt;',
   history: 'Displays the list of history of commands used.',
-  date: 'Displays the current date and time.'
+  date: 'Displays the current date and time.',
+  github: 'Opens the GitHub page in a new tab.'
+
 };
 
 const isCommand = (command: string): command is Command => {
@@ -95,20 +98,24 @@ export const getResponseForCommand = (command: string): string | null => {
       }
       case 'history':
         return getCommandHistory();
-        case 'date': {
-          const now = new Date();
-          const options: Intl.DateTimeFormatOptions = {
-            weekday: 'short',
-            year: 'numeric',
-            month: 'short',
-            day: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit',
-            second: '2-digit',
-            timeZoneName: 'short'
-          };
-          return now.toLocaleDateString('en-US', options) + ' ' + now.toLocaleTimeString('en-US', { hour12: false });
-        }
+      case 'date': {
+        const now = new Date();
+        const options: Intl.DateTimeFormatOptions = {
+          weekday: 'short',
+          year: 'numeric',
+          month: 'short',
+          day: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit',
+          timeZoneName: 'short'
+        };
+        return now.toLocaleDateString('en-US', options) + ' ' + now.toLocaleTimeString('en-US', { hour12: false });
+      }
+      case 'github': {
+        window.open('https://github.com/sridamul', '_blank');
+        return 'Redirecting to GitHub page... If not redirected, click <a href="https://github.com/sridamul" target="_blank">here</a>.';
+      }
       case 'compgen':
       case 'help':
       case 'clear': {
