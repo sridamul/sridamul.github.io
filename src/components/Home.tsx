@@ -1,7 +1,6 @@
 import React, { useRef } from 'react';
 import WelcomeMessage from './WelcomeMessage';
-import Prompt from './Prompt';
-
+import InputArea from './InputArea';
 
 const getYear = () => {
   return new Date().getFullYear();
@@ -30,8 +29,7 @@ const Home: React.FC = () => {
       <pre className="banner">{bannerCondensed}</pre>
       <WelcomeMessage message={welcomeMessage} inputRef={inputRef} />
       <div className="terminal-input">
-        <Prompt />
-        <input ref={inputRef} type="text" style={{ visibility: 'hidden' }} />
+        <InputArea />
       </div>
     </div>
   );
