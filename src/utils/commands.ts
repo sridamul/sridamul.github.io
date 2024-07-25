@@ -97,7 +97,7 @@ export const getResponseForCommand = async (command: string): Promise<string | n
         return currentDirectory
           .map(item => {
             if (item.type === 'directory') {
-              return `<span style="color: #729fcf;">${item.name}</span>`;
+              return `<span style="color: #0041c2;">${item.name}</span>`;
             }
             return item.name;
           })
