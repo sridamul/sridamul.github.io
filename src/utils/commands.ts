@@ -4,8 +4,10 @@ import { marked } from 'marked';
 
 type Command = 'compgen' | 'help' | 'clear' | 'ls' | 'cd' | 'cat' | 'man' | 'history' | 'date' | 'github';
 
+const compgenHelpText = `<span style="color: #FFFF00;">cat</span>, <span style="color: #FFFF00;">cd</span>, <span style="color: #FFFF00;">clear</span>, <span style="color: #FFFF00;">compgen</span>, <span style="color: #FFFF00;">date</span>, <span style="color: #FFFF00;">github</span>, <span style="color: #FFFF00;">help</span>, <span style="color: #FFFF00;">ls</span>, <span style="color: #FFFF00;">man</span>, <span style="color: #FFFF00;">history</span>`;
+
 const commands: Record<Command, string | null> = {
-  compgen: 'Available commands: cat, cd, clear, compgen, date, github, help, ls, man, history',
+  compgen: compgenHelpText,
   help: 'Type a command and press Enter. Use "compgen" to list all commands, and "man" to show the manual pages for each command.',
   clear: null,
   ls: null,
