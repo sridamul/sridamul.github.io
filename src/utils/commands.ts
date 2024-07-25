@@ -1,5 +1,6 @@
 import { fileSystem, FileSystemItem } from '../fileSystem/fileSystem';
 import { addCommandToHistory, getCommandHistory, navigateHistory } from './historyManager';
+import { marked } from 'marked';
 
 type Command = 'compgen' | 'help' | 'clear' | 'ls' | 'cd' | 'cat' | 'man' | 'history' | 'date' | 'github';
 
@@ -115,6 +116,9 @@ export const getResponseForCommand = async (command: string): Promise<string | n
         if (file && file.type === 'file' && file.path) {
           try {
             const content = await fetchFileContent(file.path);
+            if (file.path.endsWith('.md')) {
+              return marked.parse(content);
+            }
             return content;
           } catch (error) {
             if (error instanceof Error) {

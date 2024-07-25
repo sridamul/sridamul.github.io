@@ -1,5 +1,5 @@
 export type FileType = 'file' | 'directory';
-export type FileExtension = 'txt' | 'pdf';
+export type FileExtension = 'txt' | 'pdf' | 'md';
 
 export interface FileSystemItem {
   name: string;
@@ -41,9 +41,9 @@ export const fileSystem: FileSystemItem[] = [
     ],
   },
   {
-    name: 'welcome.txt',
+    name: 'welcome.md',
     type: 'file',
-    extension: 'txt',
-    path: '/welcome.txt',
+    extension: 'md',
+    path: '/welcome.md',
   },
 ];
