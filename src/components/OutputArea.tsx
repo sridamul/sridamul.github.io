@@ -12,7 +12,7 @@ const OutputArea: React.FC<OutputProps> = ({ output }) => {
 
         return (
           <div key={index} className="terminal-output-entry">
-            <span className="terminal-prompt">{entry.promptPart} </span>
+            <span className="terminal-prompt">{entry.promptPart}</span>
             <span className={isValidCommand ? 'terminal-command-valid' : 'terminal-command-invalid'}>
               {entry.commandPart}
             </span>
