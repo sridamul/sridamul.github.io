@@ -15,8 +15,12 @@
   margin: 0;
 }
 
-.terminal-welcome-message {
+.terminal-welcome-message, .terminal-prompt,
+.input-form input, .output-area {
   font-family: 'DejaVu Sans Mono', 'Ubuntu Mono', 'Liberation Mono', monospace;
+}
+
+.terminal-welcome-message {
   color: white;
   font-size: 16px;
   font-weight: lighter;
@@ -26,7 +30,6 @@
 }
 
 .terminal-prompt {
-  font-family: 'DejaVu Sans Mono', 'Ubuntu Mono', 'Liberation Mono', monospace;
   color: #4AF626;
   font-size: 16px;
   flex-shrink: 0;
@@ -48,7 +51,6 @@
   border: none;
   background: transparent;
   color: white;
-  font-family: 'DejaVu Sans Mono', 'Ubuntu Mono', 'Liberation Mono', monospace;
   font-size: 16px;
   outline: none;
   width: 100%;
@@ -57,7 +59,6 @@
 }
 
 .output-area {
-  font-family: 'DejaVu Sans Mono', 'Ubuntu Mono', 'Liberation Mono', monospace;
   color: white;
   white-space: pre-wrap;
 }
