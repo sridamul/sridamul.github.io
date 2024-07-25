@@ -4,7 +4,7 @@ export type FileExtension = 'txt' | 'pdf';
 export interface FileSystemItem {
   name: string;
   type: FileType;
-  content?: string; // for text files
+  path?: string;
   extension?: FileExtension;
   children?: FileSystemItem[]; // for directories
 }
@@ -18,12 +18,13 @@ export const fileSystem: FileSystemItem[] = [
         name: 'resume',
         type: 'file',
         extension: 'pdf',
+        path: '/public/documents/resume.pdf',
       },
       {
         name: 'aboutme.txt',
         type: 'file',
         extension: 'txt',
-        content: 'Hi! I am Sridhar. More to come...',
+        path: '/public/documents/aboutme.txt',
       },
     ],
   },
@@ -35,7 +36,7 @@ export const fileSystem: FileSystemItem[] = [
         name: 'meeting_notes',
         type: 'file',
         extension: 'txt',
-        content: 'GSoC Meeting Notes.',
+        path: '/public/notes/meeting_notes.txt',
       },
     ],
   },
@@ -43,6 +44,6 @@ export const fileSystem: FileSystemItem[] = [
     name: 'welcome.txt',
     type: 'file',
     extension: 'txt',
-    content: 'Welcome to the file system!',
+    path: '/public/welcome.txt',
   },
 ];

@@ -27,7 +27,6 @@ const manPages: Record<string, string> = {
   history: 'Displays the list of history of commands used.',
   date: 'Displays the current date and time.',
   github: 'Opens the GitHub page in a new tab.'
-
 };
 
 const isCommand = (command: string): command is Command => {
@@ -38,11 +37,41 @@ let currentDirectory: FileSystemItem[] = fileSystem;
 const directoryStack: FileSystemItem[][] = [];
 let currentPath: string = '/';
 
+// Cache for file contents
+const fileContentCache: Record<string, string> = {};
+
 const findItem = (name: string, directory: FileSystemItem[]): FileSystemItem | undefined => {
   return directory.find(item => item.name === name);
 };
 
-export const getResponseForCommand = (command: string): string | null => {
+const fetchFileContent = async (path: string): Promise<string> => {
+  if (fileContentCache[path]) {
+    return fileContentCache[path];
+  }
+
+  const response = await fetch(path);
+  if (!response.ok) {
+    throw new Error(`Failed to fetch file content from ${path}`);
+  }
+
+  const content = await response.text();
+  fileContentCache[path] = content;
+  return content;
+};
+
+const prefetchFiles = async () => {
+  const filesToPrefetch = fileSystem
+    .flatMap(item => item.type === 'directory' ? item.children || [] : [item])
+    .filter(item => item.type === 'file' && item.path?.endsWith('.txt'));
+
+  for (const file of filesToPrefetch) {
+    if (file.path) {
+      await fetchFileContent(file.path);
+    }
+  }
+};
+
+export const getResponseForCommand = async (command: string): Promise<string | null> => {
   const [cmd, ...args] = command.split(' ');
 
   addCommandToHistory(command);
@@ -83,11 +112,16 @@ export const getResponseForCommand = (command: string): string | null => {
       case 'cat': {
         if (args.length !== 1) return "Usage: cat &lt;file&gt;";
         const file = findItem(args[0], currentDirectory);
-        if (file && file.type === 'file') {
-          if (file.extension === 'txt') {
-            return file.content || '';
-          } else if (file.extension === 'pdf') {
-            return `Download the PDF file <a href="/path/to/${file.name}.pdf" download>${file.name}.pdf</a>`;
+        if (file && file.type === 'file' && file.path) {
+          try {
+            const content = await fetchFileContent(file.path);
+            return content;
+          } catch (error) {
+            if (error instanceof Error) {
+              return `Error reading file: ${error.message}`;
+            } else {
+              return `Unknown error occurred`;
+            }
           }
         }
         return `File not found: ${args[0]}`;
@@ -129,6 +163,8 @@ export const getResponseForCommand = (command: string): string | null => {
 
   return 'Command not found. Type "compgen" for a list of commands.';
 };
+
+prefetchFiles();
 
 export const handleArrowKey = (key: 'up' | 'down', currentInput: string): string => {
   return navigateHistory(key, currentInput);

@@ -29,11 +29,11 @@ const useCommandHandler = () => {
     setInputValue(e.target.value);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     const command = inputValue.trim().toLowerCase();
-    const response = getResponseForCommand(command);
+    const response = await getResponseForCommand(command);
 
     const commandPart = inputValue.trim();
     const promptPart = `${prompt}${currentPath.trim()}#`;
@@ -67,7 +67,7 @@ const useCommandHandler = () => {
           ...prevOutput,
           { promptPart, commandPart, response: '' }
         ]);
-        
+
         if (command === 'cd ..') {
           const newDir = directoryStack.current.pop() || rootFileSystem;
           setCurrentDirectory(newDir);
