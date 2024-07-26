@@ -129,7 +129,7 @@ const useCommandHandler = () => {
       } else if (inputParts[0] === 'cat' && inputParts.length === 2) {
         suggestions = getCatSuggestions(inputParts[1], currentDirectory);
       } else {
-        suggestions = getAutocompleteSuggestions(inputValue, currentDirectory);
+        suggestions = getAutocompleteSuggestions(inputValue);
       }
 
       if (suggestions.length === 1) {

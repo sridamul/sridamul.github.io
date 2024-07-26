@@ -2,16 +2,15 @@ import { FileSystemItem } from '../fileSystem/fileSystem';
 
 export const getAutocompleteSuggestions = (
   input: string,
-  currentDirectory: FileSystemItem[]
 ): string[] => {
   const commands = ['compgen', 'help', 'clear', 'ls', 'cd', 'cat', 'man', 'history', 'date', 'github', 'setbg'];
   const suggestions = commands.filter((command) => command.startsWith(input));
 
-  const currentDirectoryItems = currentDirectory
-    .map((item) => item.name)
-    .filter((name) => name.startsWith(input));
+  // const currentDirectoryItems = currentDirectory
+  //   .map((item) => item.name)
+  //   .filter((name) => name.startsWith(input));
 
-  return [...suggestions, ...currentDirectoryItems];
+  return [...suggestions];
 };
 
 export const getCdSuggestions = (
