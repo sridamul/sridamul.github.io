@@ -1,0 +1,3 @@
+<hr>🔗 <a href="https://docs.google.com/document/d/1AWv6aEL9NU5hVW_CJl81ethsguVqqL2e7H0PYOUXnR8/edit?usp=sharing">Project Weekly Meeting Notes</a>
+🔗 <a href="https://docs.google.com/document/d/1degas7eNsydkwZxdbiK1J6jzoLD9PHl2ZDSV1FZgChU/edit?usp=sharing">GSoC General office hours</a>
+🔗 <a href="https://docs.google.com/document/d/1e1QkprPN6fLpFXk_QqBUQlJhZrAl9RvXbOXOiJ-gAuY/edit?usp=sharing">GSoC'24 Project Proposal</a><hr>

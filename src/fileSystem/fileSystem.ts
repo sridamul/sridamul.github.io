@@ -21,10 +21,10 @@ export const fileSystem: FileSystemItem[] = [
         path: '/documents/resume.pdf',
       },
       {
-        name: 'aboutme.txt',
+        name: 'aboutme.md',
         type: 'file',
-        extension: 'txt',
-        path: '/documents/aboutme.txt',
+        extension: 'md',
+        path: '/documents/aboutme.md',
       },
     ],
   },
@@ -33,10 +33,16 @@ export const fileSystem: FileSystemItem[] = [
     type: 'directory',
     children: [
       {
-        name: 'meeting_notes',
+        name: 'gsoc_meeting_notes.md',
         type: 'file',
-        extension: 'txt',
-        path: '/notes/meeting_notes.txt',
+        extension: 'md',
+        path: '/notes/gsoc_meeting_notes.md',
+      },
+      {
+        name: 'gdoc-links.md',
+        type: 'file',
+        extension: 'md',
+        path: '/notes/gdoc-links.md',
       },
     ],
   },
