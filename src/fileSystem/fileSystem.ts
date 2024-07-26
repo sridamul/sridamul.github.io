@@ -26,6 +26,12 @@ export const fileSystem: FileSystemItem[] = [
         extension: 'md',
         path: '/documents/aboutme.md',
       },
+      {
+        name: 'contact.md',
+        type: 'file',
+        extension: 'md',
+        path: '/documents/contact.md',
+      },
     ],
   },
   {
