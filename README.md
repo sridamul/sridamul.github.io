@@ -3,6 +3,19 @@
 > [!Note]
 > Work in progress
 
+## Quick Start
+
+This repository is deployed as a Docker Hub image. To use it quickly, pull the image using the following command:
+
+```bash
+docker pull sridamul/terminal-website:latest
+```
+
+Once the image is pulled, you can run a container with the following command:
+
+```bash
+docker run -d -p 80:80 sridamul/terminal-website:latest
+```
 
 ## Getting Started
 
@@ -32,6 +45,7 @@ npm install
 ```bash
 npm run dev
 ```
+
 ## Features
 
 - **File System**: Mocked a simple file system and allows the user to navigate between them.
