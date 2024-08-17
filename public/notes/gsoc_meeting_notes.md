@@ -64,4 +64,25 @@
 <span>👉 Problems with compiling plugins with current recipes.</span>
 <span>👉 Discussed JSON format for metadata files and recipe titles for PRs.</span>
 <span>👉 Sridhar to focus on adding recipes and address empty PRs issue.</span>
-<span>👉 Action points: Create an issue for empty PRs and solve it by next week.</span><hr>
+<span>👉 Action points: Create an issue for empty PRs and solve it by next week.</span><hr><span>Meeting #12</span>
+<span><strong>Date:</strong></span> Tuesday, July 30, 2024
+<span><strong>Attendees:</strong></span> Sridhar, Valentin
+<span>👉 Valentin asked about extending the project timeline.</span>
+<span>👉 Switched from Checkstyle to Spotless for code formatting.</span>
+<span>👉 Moved from custom YAML to OpenRewrite declarative recipes.</span>
+<span>👉 Issue with running JDK 8 plugins with recipes compiled on JDK 17.</span>
+<span>👉 Idea: use setJavaHome for JDK 8 and JDK 17 during recipe runs.</span>
+<span>👉 Action points: Sridhar to raise a PR to cache JDKs locally and focus on switching JDKs during plugin modernization.</span><hr><span>Meeting #13</span>
+<span><strong>Date:</strong></span> Tuesday, August 6, 2024
+<span><strong>Attendees:</strong></span> Sridhar, Valentin
+<span>👉 Valentin asked about extending the project timeline; decided to stick with the standard period.</span>
+<span>👉 Discussed storing plugin metadata and extracting JDK version.</span>
+<span>👉 Refactor code recipes to baseline existing plugins.</span>
+<span>👉 Linux issue: JDK loses execution flag during extraction.</span>
+<span>👉 Action points: Sridhar to extract plugin metadata to CSV/JSON and add execution permissions after JDK extraction.</span><hr><span>Meeting #14</span>
+<span><strong>Date:</strong></span> Tuesday, August 13, 2024
+<span><strong>Attendees:</strong></span> Sridhar, Valentin
+<span>👉 Metadata storage still unresolved.</span>
+<span>👉 Discussed metadata storage: external DB, security, extraction process.</span>
+<span>👉 Focus on small POCs and enhancements due to limited time.</span>
+<span>👉 Action points: Stabilize tool, fix issues, improve test coverage.</span><hr>
