@@ -15,12 +15,6 @@ export const fileSystem: FileSystemItem[] = [
     type: 'directory',
     children: [
       {
-        name: 'resume',
-        type: 'file',
-        extension: 'pdf',
-        path: '/documents/resume.pdf',
-      },
-      {
         name: 'aboutme.md',
         type: 'file',
         extension: 'md',
@@ -31,6 +25,12 @@ export const fileSystem: FileSystemItem[] = [
         type: 'file',
         extension: 'md',
         path: '/documents/contact.md',
+      },
+      {
+        name: 'resume.md',
+        type: 'file',
+        extension: 'md',
+        path: '/documents/resume.md',
       },
     ],
   },
